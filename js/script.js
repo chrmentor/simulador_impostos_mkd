@@ -9,262 +9,203 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultadosModal = document.getElementById('resultadosModal');
     const closeModal = document.getElementById('closeModal');
     const fecharBtn = document.getElementById('fecharBtn');
-    const downloadBtn = document.getElementById('downloadBtn');
+    const whatsappBtn = document.getElementById('whatsappBtn'); // Botão do WhatsApp adicionado
     
     // Formatação de valores monetários
     const formatarMoeda = (input) => {
-        // Definir valor inicial como R$ 0,00
         if (!input.value || input.value === '') {
             input.value = 'R$ 0,00';
         }
         
         input.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
-            
-            // Se o campo estiver vazio após remover caracteres não numéricos, definir como zero
             if (value === '') {
                 e.target.value = 'R$ 0,00';
                 return;
             }
-            
-            // Converter para número e formatar
             value = (parseInt(value) / 100).toFixed(2);
             value = value.replace('.', ',');
             value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
             e.target.value = `R$ ${value}`;
         });
         
-        // Adicionar evento para quando o campo perder o foco
         input.addEventListener('blur', function(e) {
-            // Se o campo estiver vazio ou contiver NaN, definir como R$ 0,00
             if (!e.target.value || e.target.value === '' || e.target.value.includes('NaN')) {
                 e.target.value = 'R$ 0,00';
             }
         });
         
-        // Adicionar evento para quando o campo for limpo (delete ou backspace)
         input.addEventListener('keydown', function(e) {
-            // Se pressionar delete, backspace ou ctrl+A seguido de delete/backspace
             if (e.key === 'Delete' || e.key === 'Backspace') {
-                // Verificar se todo o conteúdo está selecionado ou se o campo ficará vazio
                 if (
                     (e.target.selectionStart === 0 && e.target.selectionEnd === e.target.value.length) ||
-                    (e.key === 'Backspace' && e.target.selectionStart === 4) ||
-                    (e.key === 'Delete' && e.target.selectionStart === e.target.value.length - 4)
+                    (e.key === 'Backspace' && e.target.selectionStart === 4 && e.target.value.length === 4) || // Ajuste para R$ 0,00
+                    (e.key === 'Delete' && e.target.selectionStart === 3 && e.target.selectionEnd === e.target.value.length) // Ajuste para R$ 0,00
                 ) {
-                    // Impedir o comportamento padrão
                     e.preventDefault();
-                    // Definir como R$ 0,00
                     e.target.value = 'R$ 0,00';
                 }
             }
         });
     };
     
-    // Aplicar formatação aos campos monetários
     const camposMoeda = document.querySelectorAll('#faturamentoMensal, #faturamentoAnual, #despesasMensais');
     camposMoeda.forEach(formatarMoeda);
-    
-    // Inicializar campos monetários com R$ 0,00
     camposMoeda.forEach(campo => {
         if (!campo.value || campo.value === '' || campo.value.includes('NaN')) {
             campo.value = 'R$ 0,00';
         }
     });
     
-    // Atualizar barra de progresso
     const atualizarProgresso = (stepNumber) => {
         const percent = ((stepNumber - 1) / (steps.length - 1)) * 100;
         progressBar.style.width = `${percent}%`;
-        
         steps.forEach((step, idx) => {
+            step.classList.remove('active', 'completed');
             if (idx + 1 < stepNumber) {
                 step.classList.add('completed');
-                step.classList.remove('active');
             } else if (idx + 1 === stepNumber) {
                 step.classList.add('active');
-                step.classList.remove('completed');
-            } else {
-                step.classList.remove('active');
-                step.classList.remove('completed');
             }
         });
     };
     
-    // Mostrar etapa específica
     const mostrarEtapa = (stepNumber) => {
         formSteps.forEach((step, idx) => {
+            step.style.display = (idx + 1 === stepNumber) ? 'block' : 'none';
             if (idx + 1 === stepNumber) {
-                step.style.display = 'block';
                 step.classList.add('animate__animated', 'animate__fadeIn');
             } else {
-                step.style.display = 'none';
+                step.classList.remove('animate__animated', 'animate__fadeIn');
             }
         });
-        
         atualizarProgresso(stepNumber);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     
-    // Validar campos da etapa atual
     const validarEtapa = (stepNumber) => {
         const currentStep = document.getElementById(`step${stepNumber}`);
         const requiredFields = currentStep.querySelectorAll('[required]');
         let isValid = true;
         
-        // Validar campos com atributo required
         requiredFields.forEach(field => {
+            let errorMsg = field.parentElement.querySelector('.error-message');
             if (!field.value.trim()) {
                 isValid = false;
                 field.classList.add('invalid');
-                
-                // Adicionar mensagem de erro se não existir
-                let errorMsg = field.parentElement.querySelector('.error-message');
                 if (!errorMsg) {
                     errorMsg = document.createElement('div');
                     errorMsg.className = 'error-message';
-                    errorMsg.textContent = 'Este campo é obrigatório';
                     field.parentElement.appendChild(errorMsg);
                 }
+                errorMsg.textContent = 'Este campo é obrigatório';
             } else {
                 field.classList.remove('invalid');
-                const errorMsg = field.parentElement.querySelector('.error-message');
-                if (errorMsg) {
-                    errorMsg.remove();
-                }
+                if (errorMsg) errorMsg.remove();
             }
         });
         
-        // Validação específica para botões de rádio na etapa 4
         if (stepNumber === 4) {
             const radioSim = document.getElementById('contabilidadeSim');
             const radioNao = document.getElementById('contabilidadeNao');
             const radioGroup = radioSim.closest('.radio-group');
-            
+            let errorMsgRadio = radioGroup.parentElement.querySelector('.error-message-radio');
+
             if (!radioSim.checked && !radioNao.checked) {
                 isValid = false;
-                
-                // Adicionar mensagem de erro se não existir
-                let errorMsg = radioGroup.parentElement.querySelector('.error-message');
-                if (!errorMsg) {
-                    errorMsg = document.createElement('div');
-                    errorMsg.className = 'error-message';
-                    errorMsg.textContent = 'Selecione uma opção';
-                    radioGroup.parentElement.appendChild(errorMsg);
+                if (!errorMsgRadio) {
+                    errorMsgRadio = document.createElement('div');
+                    errorMsgRadio.className = 'error-message error-message-radio'; 
+                    radioGroup.parentElement.appendChild(errorMsgRadio);
                 }
-                
-                // Adicionar estilo de erro ao grupo de rádio
+                errorMsgRadio.textContent = 'Selecione uma opção';
                 radioGroup.classList.add('invalid-radio');
             } else {
-                // Remover mensagem de erro se existir
-                const errorMsg = radioGroup.parentElement.querySelector('.error-message');
-                if (errorMsg) {
-                    errorMsg.remove();
-                }
-                
-                // Remover estilo de erro
+                if (errorMsgRadio) errorMsgRadio.remove();
                 radioGroup.classList.remove('invalid-radio');
             }
             
-            // Validação específica para o campo de despesas mensais na etapa 4
             const despesasMensais = document.getElementById('despesasMensais');
+            let errorMsgDespesas = despesasMensais.parentElement.querySelector('.error-message');
             if (despesasMensais) {
-                const valor = parseFloat(despesasMensais.value.replace('R$ ', '').replace('.', '').replace(',', '.'));
-                
+                const valor = parseFloat(despesasMensais.value.replace('R$ ', '').replace(/\./g, '').replace(',', '.'));
                 if (valor <= 0) {
                     isValid = false;
                     despesasMensais.classList.add('invalid');
-                    
-                    // Adicionar mensagem de erro se não existir
-                    let errorMsg = despesasMensais.parentElement.querySelector('.error-message');
-                    if (!errorMsg) {
-                        errorMsg = document.createElement('div');
-                        errorMsg.className = 'error-message';
-                        errorMsg.textContent = 'As despesas mensais devem ser maiores que zero';
-                        despesasMensais.parentElement.appendChild(errorMsg);
-                    } else {
-                        errorMsg.textContent = 'As despesas mensais devem ser maiores que zero';
+                    if (!errorMsgDespesas) {
+                        errorMsgDespesas = document.createElement('div');
+                        errorMsgDespesas.className = 'error-message';
+                        despesasMensais.parentElement.appendChild(errorMsgDespesas);
                     }
+                    errorMsgDespesas.textContent = 'As despesas mensais devem ser maiores que zero';
+                } else {
+                    if(errorMsgDespesas && errorMsgDespesas.textContent === 'As despesas mensais devem ser maiores que zero') errorMsgDespesas.remove();
                 }
             }
         }
         
-        // Validação específica para o campo de faturamento mensal na etapa 3
         if (stepNumber === 3) {
             const faturamentoMensal = document.getElementById('faturamentoMensal');
+            let errorMsgFaturamento = faturamentoMensal.parentElement.querySelector('.error-message');
             if (faturamentoMensal) {
-                const valor = parseFloat(faturamentoMensal.value.replace('R$ ', '').replace('.', '').replace(',', '.'));
-                
+                const valor = parseFloat(faturamentoMensal.value.replace('R$ ', '').replace(/\./g, '').replace(',', '.'));
                 if (valor <= 0) {
                     isValid = false;
                     faturamentoMensal.classList.add('invalid');
-                    
-                    // Adicionar mensagem de erro se não existir
-                    let errorMsg = faturamentoMensal.parentElement.querySelector('.error-message');
-                    if (!errorMsg) {
-                        errorMsg = document.createElement('div');
-                        errorMsg.className = 'error-message';
-                        errorMsg.textContent = 'O faturamento mensal deve ser maior que zero';
-                        faturamentoMensal.parentElement.appendChild(errorMsg);
-                    } else {
-                        errorMsg.textContent = 'O faturamento mensal deve ser maior que zero';
+                    if (!errorMsgFaturamento) {
+                        errorMsgFaturamento = document.createElement('div');
+                        errorMsgFaturamento.className = 'error-message';
+                        faturamentoMensal.parentElement.appendChild(errorMsgFaturamento);
                     }
-                }
-            }
-        }
-        
-        // Validação específica para os campos de WhatsApp e e-mail na etapa 5
-        if (stepNumber === 5) {
-            const whatsapp = document.getElementById('whatsapp');
-            const email = document.getElementById('email');
-            
-            // Validar WhatsApp
-            if (whatsapp && (!whatsapp.value.trim() || whatsapp.value.trim().length < 10)) {
-                isValid = false;
-                whatsapp.classList.add('invalid');
-                
-                // Adicionar mensagem de erro se não existir
-                let errorMsg = whatsapp.parentElement.querySelector('.error-message');
-                if (!errorMsg) {
-                    errorMsg = document.createElement('div');
-                    errorMsg.className = 'error-message';
-                    errorMsg.textContent = whatsapp.value.trim() ? 'Formato de WhatsApp inválido' : 'WhatsApp é obrigatório';
-                    whatsapp.parentElement.appendChild(errorMsg);
+                    errorMsgFaturamento.textContent = 'O faturamento mensal deve ser maior que zero';
                 } else {
-                    errorMsg.textContent = whatsapp.value.trim() ? 'Formato de WhatsApp inválido' : 'WhatsApp é obrigatório';
-                }
-            }
-            
-            // Validar e-mail
-            if (email) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!email.value.trim() || !emailRegex.test(email.value.trim())) {
-                    isValid = false;
-                    email.classList.add('invalid');
-                    
-                    // Adicionar mensagem de erro se não existir
-                    let errorMsg = email.parentElement.querySelector('.error-message');
-                    if (!errorMsg) {
-                        errorMsg = document.createElement('div');
-                        errorMsg.className = 'error-message';
-                        errorMsg.textContent = email.value.trim() ? 'Formato de e-mail inválido' : 'E-mail é obrigatório';
-                        email.parentElement.appendChild(errorMsg);
-                    } else {
-                        errorMsg.textContent = email.value.trim() ? 'Formato de e-mail inválido' : 'E-mail é obrigatório';
-                    }
+                     if(errorMsgFaturamento && errorMsgFaturamento.textContent === 'O faturamento mensal deve ser maior que zero') errorMsgFaturamento.remove();
                 }
             }
         }
         
+        if (stepNumber === 5) {
+            const whatsappField = document.getElementById('whatsapp');
+            const emailField = document.getElementById('email');
+            let errorMsgWhatsapp = whatsappField.parentElement.querySelector('.error-message');
+            let errorMsgEmail = emailField.parentElement.querySelector('.error-message');
+
+            if (whatsappField && (!whatsappField.value.trim() || whatsappField.value.trim().length < 10)) {
+                isValid = false;
+                whatsappField.classList.add('invalid');
+                if (!errorMsgWhatsapp) {
+                    errorMsgWhatsapp = document.createElement('div');
+                    errorMsgWhatsapp.className = 'error-message';
+                    whatsappField.parentElement.appendChild(errorMsgWhatsapp);
+                }
+                errorMsgWhatsapp.textContent = whatsappField.value.trim() ? 'Formato de WhatsApp inválido' : 'WhatsApp é obrigatório';
+            } else {
+                if(errorMsgWhatsapp) errorMsgWhatsapp.remove();
+            }
+            
+            if (emailField) {
+                const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+                if (!emailField.value.trim() || !emailRegex.test(emailField.value.trim())) {
+                    isValid = false;
+                    emailField.classList.add('invalid');
+                    if (!errorMsgEmail) {
+                        errorMsgEmail = document.createElement('div');
+                        errorMsgEmail.className = 'error-message';
+                        emailField.parentElement.appendChild(errorMsgEmail);
+                    }
+                    errorMsgEmail.textContent = emailField.value.trim() ? 'Formato de e-mail inválido' : 'E-mail é obrigatório';
+                } else {
+                     if(errorMsgEmail) errorMsgEmail.remove();
+                }
+            }
+        }
         return isValid;
     };
     
-    // Event listeners para botões de navegação
     nextButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const currentStep = parseInt(this.getAttribute('data-next')) - 1;
-            const nextStep = parseInt(this.getAttribute('data-next'));
-            
+            const currentStep = parseInt(this.closest('.form-step').id.replace('step', ''));
+            const nextStep = currentStep + 1;
             if (validarEtapa(currentStep)) {
                 mostrarEtapa(nextStep);
             }
@@ -273,206 +214,141 @@ document.addEventListener('DOMContentLoaded', function() {
     
     prevButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const prevStep = parseInt(this.getAttribute('data-prev'));
+            const currentStep = parseInt(this.closest('.form-step').id.replace('step', ''));
+            const prevStep = currentStep - 1;
             mostrarEtapa(prevStep);
         });
     });
     
-    // Calcular e mostrar resultados
     calcularBtn.addEventListener('click', function() {
-        // Validar campos obrigatórios na etapa 5 antes de prosseguir
         if (validarEtapa(5)) {
-            // Criar e mostrar o box "Calculando impostos..."
             const loadingBox = document.createElement('div');
             loadingBox.className = 'loading-box';
-            loadingBox.style.position = 'fixed';
-            loadingBox.style.top = '50%';
-            loadingBox.style.left = '50%';
-            loadingBox.style.transform = 'translate(-50%, -50%)';
-            loadingBox.style.backgroundColor = 'white';
-            loadingBox.style.padding = '30px';
-            loadingBox.style.borderRadius = '10px';
-            loadingBox.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
-            loadingBox.style.zIndex = '9999';
-            loadingBox.style.textAlign = 'center';
-            
-            const loader = document.createElement('div');
-            loader.className = 'loader';
-            loader.style.width = '40px';
-            loader.style.height = '40px';
-            loader.style.border = '3px solid #F3F4F6';
-            loader.style.borderRadius = '50%';
-            loader.style.borderTop = '3px solid #6366F1';
-            loader.style.margin = '0 auto 15px auto';
-            loader.style.animation = 'spin 1s linear infinite';
-            
-            const loadingText = document.createElement('div');
-            loadingText.textContent = 'Calculando impostos...';
-            loadingText.style.fontSize = '16px';
-            loadingText.style.color = '#333';
-            
-            loadingBox.appendChild(loader);
-            loadingBox.appendChild(loadingText);
+            loadingBox.innerHTML = '<div class="loader"></div><div>Calculando impostos...</div>';
             document.body.appendChild(loadingBox);
             
-            // Adicionar keyframes para animação do loader se ainda não existir
             if (!document.getElementById('loader-animation')) {
                 const style = document.createElement('style');
                 style.id = 'loader-animation';
-                style.textContent = `
-                    @keyframes spin {
-                        0% { transform: rotate(0deg); }
-                        100% { transform: rotate(360deg); }
-                    }
-                `;
+                style.textContent = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } .loader { width: 40px; height: 40px; border: 3px solid #F3F4F6; border-radius: 50%; border-top: 3px solid #6366F1; margin: 0 auto 15px auto; animation: spin 1s linear infinite; } .loading-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); z-index: 9999; text-align: center; font-size: 16px; color: #333; }`;
                 document.head.appendChild(style);
             }
             
-            // Coletar dados do formulário
             const dados = {
                 nome: document.getElementById('nome').value,
                 whatsapp: document.getElementById('whatsapp').value,
                 email: document.getElementById('email').value,
                 tipoNegocio: document.getElementById('tipoNegocio').value,
-                faturamentoMensal: parseFloat(document.getElementById('faturamentoMensal').value.replace('R$ ', '').replace('.', '').replace(',', '.')),
-                faturamentoAnual: parseFloat(document.getElementById('faturamentoAnual').value.replace('R$ ', '').replace('.', '').replace(',', '.')),
-                despesasMensais: parseFloat(document.getElementById('despesasMensais').value.replace('R$ ', '').replace('.', '').replace(',', '.')),
+                faturamentoMensal: parseFloat(document.getElementById('faturamentoMensal').value.replace('R$ ', '').replace(/\./g, '').replace(',', '.')), // Corrigido para remover todos os pontos
+                faturamentoAnual: parseFloat(document.getElementById('faturamentoAnual').value.replace('R$ ', '').replace(/\./g, '').replace(',', '.')), // Corrigido para remover todos os pontos
+                despesasMensais: parseFloat(document.getElementById('despesasMensais').value.replace('R$ ', '').replace(/\./g, '').replace(',', '.')), // Corrigido para remover todos os pontos
                 possuiContabilidade: document.getElementById('contabilidadeSim').checked
             };
             
-            // Simular um pequeno atraso para mostrar o loading
             setTimeout(() => {
-                // Calcular impostos (função definida em calculos.js)
                 const resultados = calcularImpostos(dados);
                 
-                // Renderizar resultados
-                renderizarResultados(dados, resultados);
+                document.getElementById('resultadoNome').textContent = dados.nome;
+                document.getElementById('resultadoTipoNegocio').textContent = document.getElementById('tipoNegocio').options[document.getElementById('tipoNegocio').selectedIndex].text;
+                document.getElementById('resultadoFaturamento').textContent = `R$ ${dados.faturamentoMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                 
-                // Enviar dados por email usando EmailJS
-                enviarDadosPorEmail(dados);
+                document.getElementById('simplesNacionalValor').textContent = resultados.simplesNacional === Infinity ? 'Não aplicável' : `R$ ${resultados.simplesNacional.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('lucroPresumidoValor').textContent = resultados.lucroPresumido === Infinity ? 'Não aplicável' : `R$ ${resultados.lucroPresumido.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('lucroRealValor').textContent = resultados.lucroReal === Infinity ? 'Não aplicável' : `R$ ${resultados.lucroReal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                 
-                // Remover o box de loading
-                document.body.removeChild(loadingBox);
+                resultadosModal.style.display = "block";
+
+                closeModal.onclick = function() {
+                    resultadosModal.style.display = "none";
+                }
                 
-                // Mostrar modal
-                resultadosModal.style.display = 'flex';
-            }, 1000);
-        } else {
-            // Rolar para o primeiro erro
-            const firstError = document.querySelector('.error-message');
-            if (firstError) {
-                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-        
-        // Função para enviar dados por email usando EmailJS
-        function enviarDadosPorEmail(dados) {
-            // Obter data e hora atual formatadas
-            const dataAtual = new Date();
-            const dataFormatada = dataAtual.toLocaleDateString('pt-BR');
-            const horaFormatada = dataAtual.toLocaleTimeString('pt-BR');
-            
-            // Preparar os parâmetros para o template
-            const templateParams = {
-                nome: dados.nome,
-                whatsapp: dados.whatsapp,
-                email: dados.email,
-                tipoNegocio: dados.tipoNegocio,
-                faturamentoMensal: `R$ ${dados.faturamentoMensal.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`,
-                faturamentoAnual: `R$ ${dados.faturamentoAnual.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`,
-                despesasMensais: `R$ ${dados.despesasMensais.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`,
-                possuiContabilidade: dados.possuiContabilidade ? 'Sim' : 'Não',
-                data: dataFormatada,
-                hora: horaFormatada
-            };
-            
-            // Criar elemento de notificação
-            const notificacao = document.createElement('div');
-            notificacao.className = 'email-notification';
-            notificacao.style.position = 'fixed';
-            notificacao.style.bottom = '20px';
-            notificacao.style.right = '20px';
-            notificacao.style.padding = '15px 20px';
-            notificacao.style.borderRadius = '5px';
-            notificacao.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
-            notificacao.style.zIndex = '9999';
-            notificacao.style.transition = 'all 0.3s ease';
-            
-            // Enviar email usando EmailJS
-            emailjs.send('service_ej7aspa', 'template_63ibyys', templateParams)
-                .then(function(response) {
-                    console.log('Email enviado com sucesso!', response.status, response.text);
-                    
-                    // Notificação de sucesso
-                    notificacao.style.backgroundColor = '#4CAF50';
-                    notificacao.style.color = 'white';
-                    notificacao.innerHTML = '<i class="fas fa-check-circle"></i> Lead registrado com sucesso!';
-                    document.body.appendChild(notificacao);
-                    
-                    // Remover notificação após 5 segundos
-                    setTimeout(() => {
-                        notificacao.style.opacity = '0';
-                        setTimeout(() => {
-                            document.body.removeChild(notificacao);
-                        }, 300);
-                    }, 5000);
-                }, function(error) {
-                    console.error('Falha ao enviar email:', error);
-                    
-                    // Notificação de erro
-                    notificacao.style.backgroundColor = '#F44336';
-                    notificacao.style.color = 'white';
-                    notificacao.innerHTML = '<i class="fas fa-exclamation-circle"></i> Erro ao registrar lead. Tente novamente.';
-                    document.body.appendChild(notificacao);
-                    
-                    // Remover notificação após 5 segundos
-                    setTimeout(() => {
-                        notificacao.style.opacity = '0';
-                        setTimeout(() => {
-                            document.body.removeChild(notificacao);
-                        }, 300);
-                    }, 5000);
-                });
+                fecharBtn.onclick = function() {
+                    resultadosModal.style.display = "none";
+                }
+
+                // Adicionar lógica para o botão WhatsApp AQUI
+                if (whatsappBtn) {
+                    whatsappBtn.onclick = function() {
+                        const nomeUsuario = dados.nome;
+                        const tipoNegocioSelect = document.getElementById('tipoNegocio');
+                        const tipoNegocioTexto = tipoNegocioSelect.options[tipoNegocioSelect.selectedIndex].text;
+                        const numeroWhatsapp = "5544999275821";
+                        let mensagem = `Olá! Sou ${nomeUsuario} e meu tipo de negócio é ${tipoNegocioTexto}. Gostaria de receber meu relatório do simulador.`;
+                        mensagem = encodeURIComponent(mensagem);
+                        const urlWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${mensagem}`;
+                        window.open(urlWhatsapp, '_blank');
+                    };
+                }
+
+                if (loadingBox && loadingBox.parentNode) { 
+                    loadingBox.parentNode.removeChild(loadingBox); 
+                }
+            }, 2000);
         }
     });
     
-    // Fechar modal
-    closeModal.addEventListener('click', function() {
-        resultadosModal.style.display = 'none';
-    });
-    
-    fecharBtn.addEventListener('click', function() {
-        resultadosModal.style.display = 'none';
-    });
-    
-    // Fechar modal ao clicar fora
-    window.addEventListener('click', function(event) {
-        if (event.target === resultadosModal) {
-            resultadosModal.style.display = 'none';
-        }
-    });
-    
-    // Download do relatório em PDF
-    downloadBtn.addEventListener('click', function() {
-        const elementToExport = document.getElementById('resultadosContainer');
-        const fileName = `Relatorio_Tributario_${new Date().toISOString().slice(0, 10)}.pdf`;
-        
-        html2canvas(elementToExport).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jspdf.jsPDF({
-                orientation: 'portrait',
-                unit: 'mm',
-                format: 'a4'
-            });
-            
-            const imgWidth = 210;
-            const imgHeight = canvas.height * imgWidth / canvas.width;
-            
-            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-            pdf.save(fileName);
-        });
-    });
-    
-    // Iniciar na primeira etapa
     mostrarEtapa(1);
 });
+
+function calcularImpostos(dados) {
+    let simplesNacional = 0;
+    let lucroPresumido = 0;
+    let lucroReal = 0;
+    const faturamentoAnual = dados.faturamentoMensal * 12;
+
+    // Simples Nacional (Anexo III ou V - simplificado)
+    if (faturamentoAnual <= 180000) {
+        simplesNacional = dados.faturamentoMensal * 0.06;
+    } else if (faturamentoAnual <= 360000) {
+        simplesNacional = dados.faturamentoMensal * 0.112;
+    } else if (faturamentoAnual <= 720000) {
+        simplesNacional = dados.faturamentoMensal * 0.135;
+    } else if (faturamentoAnual <= 1800000) {
+        simplesNacional = dados.faturamentoMensal * 0.16;
+    } else if (faturamentoAnual <= 3600000) {
+        simplesNacional = dados.faturamentoMensal * 0.21;
+    } else if (faturamentoAnual <= 4800000) {
+        simplesNacional = dados.faturamentoMensal * 0.33; // Alíquota máxima pode variar
+    } else {
+        simplesNacional = Infinity; // Não aplicável
+    }
+
+    // Lucro Presumido (Exemplo para serviços - presunção de 32% para IRPJ e CSLL)
+    const baseCalculoLP = dados.faturamentoMensal * 0.32;
+    let irpjLP = baseCalculoLP * 0.15;
+    if (baseCalculoLP * 12 > 240000) { // Adicional sobre o lucro anual que excede 240k (20k/mês)
+        irpjLP += Math.max(0, (baseCalculoLP * 12 - 240000) / 12) * 0.10;
+    }
+    const csllLP = baseCalculoLP * 0.09;
+    const pisLP = dados.faturamentoMensal * 0.0065;
+    const cofinsLP = dados.faturamentoMensal * 0.03;
+    const issLP = dados.faturamentoMensal * 0.05; // Exemplo, pode variar (usar 0.02 a 0.05)
+    lucroPresumido = irpjLP + csllLP + pisLP + cofinsLP + issLP;
+
+    // Lucro Real (Muito simplificado)
+    const lucroAntesIRCS = dados.faturamentoMensal - dados.despesasMensais - (dados.faturamentoMensal * 0.0165) - (dados.faturamentoMensal * 0.076); // PIS/COFINS não cumulativo
+    if (lucroAntesIRCS > 0) {
+        let irpjLR = lucroAntesIRCS * 0.15;
+        if (lucroAntesIRCS * 12 > 240000) { // Adicional sobre o lucro anual que excede 240k
+            irpjLR += Math.max(0, (lucroAntesIRCS * 12 - 240000) / 12) * 0.10;
+        }
+        const csllLR = lucroAntesIRCS * 0.09;
+        const pisLR = dados.faturamentoMensal * 0.0165;
+        const cofinsLR = dados.faturamentoMensal * 0.076;
+        const issLR = dados.faturamentoMensal * 0.05; // Exemplo
+        lucroReal = irpjLR + csllLR + pisLR + cofinsLR + issLR;
+    } else {
+        // Mesmo com prejuízo, PIS/COFINS e ISS podem ser devidos sobre o faturamento
+        lucroReal = (dados.faturamentoMensal * 0.0165) + (dados.faturamentoMensal * 0.076) + (dados.faturamentoMensal * 0.05);
+    }
+    
+    if (faturamentoAnual > 4800000) {
+        simplesNacional = Infinity;
+    }
+    if (faturamentoAnual > 78000000) {
+        lucroPresumido = Infinity;
+    }
+
+    return { simplesNacional, lucroPresumido, lucroReal };
+}
+
