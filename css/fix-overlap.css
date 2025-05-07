@@ -1,0 +1,9 @@
+/* Estilos personalizados para corrigir a sobreposição do texto no select */
+select option[value=""] {
+    text-indent: 25px; /* Adiciona espaçamento à esquerda do texto */
+}
+
+/* Estilo para o texto "Selecione uma opção" no select */
+select {
+    text-indent: 25px; /* Adiciona espaçamento à esquerda do texto no select */
+}

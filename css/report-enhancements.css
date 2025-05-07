@@ -1,0 +1,247 @@
+.fator-r-explicacao {
+    background-color: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.fator-r-explicacao h4 {
+    color: #0369a1;
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.fator-r-explicacao i {
+    color: #0ea5e9;
+    margin-right: 8px;
+}
+
+.fator-r-explicacao p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.fator-r-explicacao strong {
+    color: #0369a1;
+}
+
+.fator-r-detalhes {
+    background-color: #ffffff;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0;
+    border: 1px solid #e0f2fe;
+}
+
+.fator-r-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #e0e7ff;
+}
+
+.fator-r-item.total {
+    border-bottom: none;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 2px solid #e0e7ff;
+    font-weight: bold;
+}
+
+.fator-r-label {
+    color: #4b5563;
+}
+
+.fator-r-valor {
+    font-weight: 600;
+    color: #1e40af;
+}
+
+.fator-r-economia {
+    color: #047857;
+    font-size: 16px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.fator-r-contato {
+    color: #4b5563;
+    font-size: 15px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.fator-r-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.cta-button-small {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #10b981;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button-small:hover {
+    background-color: #059669;
+}
+
+.cta-button-small i {
+    margin-right: 8px;
+}
+
+/* Estilos para a seção de vantagens e desvantagens conforme imagem de referência */
+.vantagens-desvantagens h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 10px;
+}
+
+.regime-details {
+    margin-bottom: 30px;
+}
+
+.regime-details h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 8px;
+}
+
+.vantagens-desvantagens-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.vantagens, .desvantagens {
+    flex: 1;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.vantagens {
+    background-color: #ecfdf5;
+    border: 1px solid #d1fae5;
+}
+
+.desvantagens {
+    background-color: #fef2f2;
+    border: 1px solid #fee2e2;
+}
+
+.vantagens h5, .desvantagens h5 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.vantagens h5 {
+    color: #047857;
+}
+
+.desvantagens h5 {
+    color: #b91c1c;
+}
+
+.vantagens i, .desvantagens i {
+    margin-right: 8px;
+}
+
+.vantagens i {
+    color: #10b981;
+}
+
+.desvantagens i {
+    color: #ef4444;
+}
+
+.vantagens ul, .desvantagens ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.vantagens li, .desvantagens li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Estilos para a seção de recomendação personalizada */
+.recomendacao-personalizada {
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.recomendacao-personalizada h3 {
+    color: #1e40af;
+    margin-top: 0;
+    font-size: 20px;
+    border-bottom: 2px solid #bfdbfe;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.recomendacao-personalizada p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.recomendacao-personalizada strong {
+    color: #1e40af;
+    font-weight: 600;
+}
+
+.recomendacao-personalizada ul {
+    background-color: #ffffff;
+    border-radius: 6px;
+    padding: 15px 15px 15px 35px;
+    margin: 15px 0;
+    border: 1px solid #dbeafe;
+}
+
+.recomendacao-personalizada li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+    color: #4b5563;
+    position: relative;
+}
+
+.recomendacao-personalizada li::before {
+    content: "•";
+    color: #3b82f6;
+    font-weight: bold;
+    position: absolute;
+    left: -20px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .vantagens-desvantagens-container {
+        flex-direction: column;
+    }
+    
+    .vantagens, .desvantagens {
+        width: 100%;
+    }
+}

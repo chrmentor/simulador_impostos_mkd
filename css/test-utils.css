@@ -1,0 +1,232 @@
+/* Estilos para testes de responsividade */
+.responsive-test-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    z-index: 9999;
+    display: none;
+}
+
+.responsive-test-banner.active {
+    display: block;
+}
+
+.device-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.device-button {
+    background-color: #4361ee;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.device-button:hover {
+    background-color: #3a56d4;
+}
+
+.device-button.active {
+    background-color: #10B981;
+}
+
+/* Estilos para debug de layout */
+.debug-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    display: none;
+}
+
+.debug-grid.active {
+    display: block;
+}
+
+.debug-grid-overlay {
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        to right,
+        rgba(255, 0, 0, 0.1),
+        rgba(255, 0, 0, 0.1) 8.33%,
+        rgba(0, 0, 255, 0.1) 8.33%,
+        rgba(0, 0, 255, 0.1) 16.66%
+    );
+}
+
+/* Estilos para o painel de testes */
+.test-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    z-index: 9999;
+    width: 300px;
+    display: none;
+}
+
+.test-panel.active {
+    display: block;
+}
+
+.test-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.test-panel-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.test-panel-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.test-section {
+    margin-bottom: 15px;
+}
+
+.test-section-title {
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.test-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.test-button {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.test-button:hover {
+    background-color: #e9ecef;
+}
+
+.test-results {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.test-result-item {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.test-result-success {
+    color: #10B981;
+}
+
+.test-result-error {
+    color: #EF4444;
+}
+
+.test-result-warning {
+    color: #F59E0B;
+}
+
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-switch label {
+    font-size: 0.85rem;
+    margin-bottom: 0;
+}
+
+/* Estilos para o botão de teste flutuante */
+.test-toggle-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #4361ee;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9997;
+    transition: all 0.3s ease;
+}
+
+.test-toggle-button:hover {
+    background-color: #3a56d4;
+    transform: scale(1.1);
+}
+
+.test-toggle-button i {
+    font-size: 1.2rem;
+}
+
+/* Estilos para o modo de teste */
+body.test-mode {
+    padding-bottom: 50px;
+}
+
+/* Estilos para destacar elementos em teste */
+.highlight-element {
+    outline: 2px solid #F59E0B !important;
+    position: relative;
+}
+
+.highlight-element::after {
+    content: attr(data-test-id);
+    position: absolute;
+    top: -20px;
+    left: 0;
+    background-color: #F59E0B;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    z-index: 9999;
+}
