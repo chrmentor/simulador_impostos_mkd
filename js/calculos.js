@@ -71,7 +71,7 @@ function calcularSimplesNacional(dados) {
         }
         
         // Para infoprodutos e serviços digitais, usamos uma alíquota reduzida
-        if (dados.tipoNegocio === 'infoprodutos' || dados.tipoNegocio === 'servicos') {
+        if (dados.tipoNegocio === 'infoprodutos' || dados.tipoNegocio === 'servicos' || dados.tipoNegocio === 'coaching' || dados.tipoNegocio === 'adsense' || dados.tipoNegocio === 'socialmedia') {
             aliquota = aliquota * 0.7; // Redução fictícia para demonstração
         }
         
