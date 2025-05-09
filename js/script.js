@@ -436,7 +436,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(function(response) {
                     console.log('Email enviado com sucesso!', response.status, response.text);
                     
-                    // Notificação de sucesso
+                    // Notificação de sucesso (removida a pedido do usuário)
+                    /*
                     notificacao.style.backgroundColor = '#4CAF50';
                     notificacao.style.color = 'white';
                     notificacao.innerHTML = '<i class="fas fa-check-circle"></i> Lead registrado com sucesso!';
@@ -449,6 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             document.body.removeChild(notificacao);
                         }, 300);
                     }, 5000);
+                    */
                 }, function(error) {
                     console.error('Falha ao enviar email:', error);
                     
