@@ -262,70 +262,25 @@
         </div>
 
         <!-- Modal de Resultados -->
-<div class="modal" id="resultadosModal">
-    <div class="modal-content report-style">
-        <div class="modal-header">
-            <div class="report-title-section">
-                <h2>Relatório Tributário Personalizado</h2>
-                <p class="report-subtitle">Gerado em: <span id="reportDate"></span></p>
-                <p class="report-subtitle">Preparado para: <span id="reportUserName"></span></p>
-            </div>
-            <div class="report-logo">
-                <img src="logo_mentorial.png" alt="Mentorial Contabilidade">
-            </div>
-            <button class="close-btn" id="closeModal"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="modal-body" id="resultadosContainer">
-            <div class="report-section executive-summary">
-                <h3>Resumo Executivo</h3>
-                <p>Com base nos dados fornecidos, realizamos uma análise comparativa dos três principais regimes tributários brasileiros aplicáveis ao seu perfil de infoprodutor/afiliado.</p>
-            </div>
-
-            <div class="regime-comparison-cards">
-                <div class="regime-card simples-nacional-card" id="cardSimplesNacional">
-                    <div class="recommendation-badge" id="badgeSimplesNacional" style="display: none;">Recomendado</div>
-                    <h4>Simples Nacional</h4>
-                    <p class="valor-imposto" id="simplesNacionalValor"></p>
-                    <p class="aliquota-efetiva">Alíquota efetiva: <span id="simplesNacionalAliquota"></span></p>
-                    <p class="regime-description">Regime simplificado para micro e pequenas empresas, com tributos unificados em uma única guia.</p>
+        <div class="modal" id="resultadosModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Relatório Tributário Personalizado</h2>
+                    <button class="close-btn" id="closeModal"><i class="fas fa-times"></i></button>
                 </div>
-                <div class="regime-card lucro-presumido-card" id="cardLucroPresumido">
-                    <div class="recommendation-badge" id="badgeLucroPresumido" style="display: none;">Recomendado</div>
-                    <h4>Lucro Presumido</h4>
-                    <p class="valor-imposto" id="lucroPresumidoValor"></p>
-                    <p class="aliquota-efetiva">Alíquota efetiva: <span id="lucroPresumidoAliquota"></span></p>
-                    <p class="regime-description">Regime que presume uma margem de lucro sobre o faturamento para cálculo dos impostos.</p>
+                <div class="modal-body" id="resultadosContainer">
+                    <!-- Conteúdo dos resultados será inserido aqui via JavaScript -->
                 </div>
-                <div class="regime-card lucro-real-card" id="cardLucroReal">
-                    <div class="recommendation-badge" id="badgeLucroReal" style="display: none;">Recomendado</div>
-                    <h4>Lucro Real</h4>
-                    <p class="valor-imposto" id="lucroRealValor"></p>
-                    <p class="aliquota-efetiva">Alíquota efetiva: <span id="lucroRealAliquota"></span></p>
-                    <p class="regime-description">Tributação com base no lucro líquido real da empresa, após todas as deduções.</p>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" id="fecharBtn">Fechar</button>
+                    <button class="btn btn-primary" id="downloadBtn"><i class="fas fa-download"></i> Baixar Relatório em PDF</button>
+                    <div class="email-option">
+                        <input type="checkbox" id="receberEmail">
+                        <label for="receberEmail">Desejo receber este relatório por e-mail</label>
+                    </div>
                 </div>
             </div>
-
-            <div class="report-section economy-potential" id="economyPotentialSection" style="display: none;">
-                <p><i class="fas fa-check-circle"></i> Economia potencial: <span id="economiaPotencialValor"></span> anuais em comparação com o regime menos vantajoso.</p>
-            </div>
-
-            <div class="report-section detailed-analysis">
-                <h3>Análise Comparativa Detalhada</h3>
-                <!-- Conteúdo da análise detalhada (gráficos, tabelas) pode ser adicionado aqui posteriormente -->
-                <p>Informações detalhadas sobre cada imposto e como chegamos a estes valores serão apresentadas em futuras versões ou no contato com nossos especialistas.</p>
-            </div>
-
-            <div class="report-section disclaimer">
-                <p><strong>Disclaimer:</strong> Este relatório contém valores aproximados e foi gerado com base nas informações fornecidas e na legislação vigente na data de sua elaboração. Recomendamos consultar um contador ou especialista tributário antes de tomar decisões definitivas sobre seu regime tributário.</p>
-            </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline" id="fecharBtn">Fechar</button>
-            <a href="https://wa.me/5544997732929" class="btn btn-success whatsapp-btn-report" target="_blank"><i class="fab fa-whatsapp"></i> Falar com Especialista</a>
-            <!-- <button class="btn btn-primary" id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> Baixar PDF</button> -->
-        </div>
-    </div>
-</div>
     </div>
 
     <footer>
@@ -340,6 +295,7 @@
 
     <script src="js/script.js"></script>
     <script src="js/calculos.js"></script>
+    <!-- Carregando o arquivo de cálculo do Lucro Presumido corrigido por último para garantir que sobrescreva as funções anteriores -->
     <script src="js/calculos_lucro_presumido_final.js"></script>
     <script src="js/validacoes.js"></script>
     <script src="js/visualizations.js"></script>
@@ -349,57 +305,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<footer-btn></footer-btn>
-<script>
-    // Definir o elemento personalizado para o botão flutuante do Manus
-    class FooterBtn extends HTMLElement {
-        constructor() {
-            super();
-            const shadow = this.attachShadow({ mode: "open" });
-            const wrapper = document.createElement("div");
-            wrapper.setAttribute("class", "footer-btn-wrapper");
-            const style = document.createElement("style");
-            style.textContent = `
-                .footer-btn-wrapper {
-                    position: fixed;
-                    bottom: 20px;
-                    right: 20px;
-                    z-index: 10000;
-                }
-                .footer-btn-wrapper a {
-                    background-color: #6366F1; /* Cor roxa do Manus */
-                    color: white;
-                    padding: 10px 15px;
-                    border-radius: 20px;
-                    text-decoration: none;
-                    font-family: Poppins, sans-serif;
-                    font-size: 14px;
-                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-                    display: flex;
-                    align-items: center;
-                }
-                .footer-btn-wrapper a svg {
-                    margin-right: 8px;
-                    width: 16px;
-                    height: 16px;
-                }
-            `;
-            const link = document.createElement("a");
-            link.setAttribute("href", "https://manus.ai");
-            link.setAttribute("target", "_blank");
-            link.innerHTML = 
-                `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071 1.056 9.75 9.75 0 01-2.56 14.153.75.75 0 00-1.043 1.082A11.25 11.25 0 006.037 21.5H6a.75.75 0 00-.75.75 2.25 2.25 0 002.25 2.25h10.5A2.25 2.25 0 0020.25 22.25a.75.75 0 00-.75-.75h-.037a11.25 11.25 0 00-4.18-4.92.75.75 0 00-1.042-1.082 9.75 9.75 0 01-2.56-14.153.75.75 0 00-1.071-1.056zM12 6.75a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V7.5a.75.75 0 01.75-.75zM12 12.75a.75.75 0 01.75.75v.008a.75.75 0 01-1.5 0V13.5a.75.75 0 01.75-.75z" clip-rule="evenodd" />
-                </svg>
-                Made with Manus Create my website`;
-            shadow.appendChild(style);
-            shadow.appendChild(wrapper);
-            wrapper.appendChild(link);
-        }
-    }
-    // Registrar o elemento personalizado
-    customElements.define("footer-btn", FooterBtn);
-</script>
 </body>
 </html>
-

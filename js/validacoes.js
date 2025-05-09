@@ -542,7 +542,7 @@ function adicionarValidacaoFormulario() {
             esconderLoader();
             
             // Mostrar resultados
-            // mostrarResultados(dados, resultados); // Comentado para evitar erro, pois script.js já faz isso
+            mostrarResultados(dados, resultados);
             
             // Mostrar modal
             const resultadosModal = document.getElementById('resultadosModal');
