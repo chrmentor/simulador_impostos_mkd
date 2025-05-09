@@ -189,25 +189,58 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Validação específica para o campo de faturamento mensal na etapa 3
+        // Validação específica para os campos de faturamento na etapa 3
         if (stepNumber === 3) {
+            // Validação para faturamentoMensal
             const faturamentoMensal = document.getElementById('faturamentoMensal');
             if (faturamentoMensal) {
-                const valor = parseFloat(faturamentoMensal.value.replace('R$ ', '').replace('.', '').replace(',', '.'));
+                const inputIconMensal = faturamentoMensal.closest('.input-icon');
+                if (inputIconMensal && inputIconMensal.parentElement) {
+                    let errorMsgMensal = inputIconMensal.parentElement.querySelector('.error-message-mensal');
+                    if (errorMsgMensal) {
+                        errorMsgMensal.remove();
+                    }
+                }
+                faturamentoMensal.classList.remove('invalid');
+
+                const valorMensal = parseFloat(faturamentoMensal.value.replace('R$ ', '').replace(/\./g, '').replace(',', '.'));
                 
-                if (valor <= 0) {
+                if (valorMensal <= 0) {
                     isValid = false;
                     faturamentoMensal.classList.add('invalid');
                     
-                    // Adicionar mensagem de erro se não existir
-                    let errorMsg = faturamentoMensal.parentElement.querySelector('.error-message');
-                    if (!errorMsg) {
-                        errorMsg = document.createElement('div');
-                        errorMsg.className = 'error-message';
-                        errorMsg.textContent = 'O faturamento mensal deve ser maior que zero';
-                        faturamentoMensal.parentElement.appendChild(errorMsg);
-                    } else {
-                        errorMsg.textContent = 'O faturamento mensal deve ser maior que zero';
+                    const errorMsgMensalElement = document.createElement('div');
+                    errorMsgMensalElement.className = 'error-message error-message-mensal';
+                    errorMsgMensalElement.textContent = 'O faturamento mensal deve ser maior que zero.';
+                    if (inputIconMensal && inputIconMensal.parentElement) {
+                        inputIconMensal.parentElement.insertBefore(errorMsgMensalElement, inputIconMensal.nextSibling);
+                    }
+                }
+            }
+
+            // Validação para faturamentoAnual (RBT12)
+            const faturamentoAnual = document.getElementById('faturamentoAnual');
+            if (faturamentoAnual) {
+                const inputIconAnual = faturamentoAnual.closest('.input-icon');
+                if (inputIconAnual && inputIconAnual.parentElement) {
+                    let errorMsgAnual = inputIconAnual.parentElement.querySelector('.error-message-anual');
+                    if (errorMsgAnual) {
+                        errorMsgAnual.remove();
+                    }
+                }
+                faturamentoAnual.classList.remove('invalid');
+
+                const valorAnual = parseFloat(faturamentoAnual.value.replace('R$ ', '').replace(/\./g, '').replace(',', '.'));
+
+                if (valorAnual <= 0) {
+                    isValid = false;
+                    faturamentoAnual.classList.add('invalid');
+
+                    const errorMsgAnualElement = document.createElement('div');
+                    errorMsgAnualElement.className = 'error-message error-message-anual';
+                    errorMsgAnualElement.textContent = 'O RBT12 (faturamento dos últimos 12 meses) deve ser maior que zero.';
+                     if (inputIconAnual && inputIconAnual.parentElement) {
+                        inputIconAnual.parentElement.insertBefore(errorMsgAnualElement, inputIconAnual.nextSibling);
                     }
                 }
             }

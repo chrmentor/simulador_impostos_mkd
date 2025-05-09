@@ -290,7 +290,15 @@ function validarValorMonetario(campo) {
     
     // Verificar se é um número válido e maior que zero
     if (isNaN(valor) || valor <= 0) {
-        mostrarErro(campo, campo.id === 'faturamentoMensal' ? 'O faturamento mensal deve ser maior que zero' : 'Informe um valor monetário válido');
+        let mensagemErro = 'Informe um valor monetário válido e maior que zero.';
+        if (campo.id === 'faturamentoMensal') {
+            mensagemErro = 'O faturamento mensal deve ser maior que zero.';
+        } else if (campo.id === 'faturamentoAnual') {
+            mensagemErro = 'O RBT12 (faturamento dos últimos 12 meses) deve ser maior que zero.';
+        } else if (campo.id === 'despesasMensais') {
+             mensagemErro = 'As despesas mensais devem ser maiores que zero.';
+        }
+        mostrarErro(campo, mensagemErro);
         return false;
     }
     
