@@ -21,7 +21,7 @@ function calcularSimplesNacional(dados) {
     let anexoUtilizado = "";
     
     // Verificar se é afiliado (intermediador de serviço, sujeito ao Anexo V)
-    if (dados.tipoNegocio === 'afiliado') {
+    if (dados.tipoNegocio === 'afiliado_brasil' || dados.tipoNegocio === 'afiliado_exterior') {
         // Calcular o valor do pró-labore necessário para atingir o Fator R
         const proLaboreNecessario = dados.faturamentoMensal * 0.28; // 28% do faturamento
         valorINSS = proLaboreNecessario * 0.11; // 11% de INSS sobre o pró-labore
