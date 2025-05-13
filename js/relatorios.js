@@ -70,6 +70,18 @@ function renderizarResultados(dados, resultados) {
             <p style="margin-bottom: 0; color: #78350f;">O cálculo para "Social Media" considera o <strong>Anexo III como padrão</strong> (foco em atividades operacionais como gestão de posts e marketing direto). Atividades mais estratégicas, de agenciamento ou criação de campanhas complexas podem ter enquadramento diferente (Anexo V, sujeito ao Fator R). Recomendamos fortemente contatar um contador especializado da Mentorial Contabilidade para uma análise precisa do seu caso concreto.</p>
         </div>` : '';
 
+    // Mapeamento dos tipos de negócio para nomes amigáveis
+    const nomesTiposNegocio = {
+        'infoprodutos': 'Infoprodutos (Cursos)',
+        'afiliadobr': 'Afiliados (Vendas para o Brasil)',
+        'afiliadoext': 'Afiliados (Vendas para o Exterior)',
+        'adsense': 'Adsense (Publisher e Youtuber)',
+        'socialmedia': 'Social Media',
+        'coaching': 'Coaching/Mentoria',
+        'servicos': 'Outros Serviços Digitais'
+    };
+    const nomeTipoNegocioSelecionado = nomesTiposNegocio[dados.tipoNegocio] || dados.tipoNegocio;
+
     // Construir HTML dos resultados
     let html = `
         <div class="report-header">
@@ -77,6 +89,7 @@ function renderizarResultados(dados, resultados) {
                 <h3>Relatório Tributário Personalizado</h3>
                 <p>Gerado em: ${dataAtual}</p>
                 <p>Preparado para: ${dados.nome}</p>
+                <p>Tipo de negócio: ${nomeTipoNegocioSelecionado}</p>
             </div>
             <img src="logo_mentorial.png" alt="Mentorial Contabilidade">
         </div>
