@@ -71,9 +71,9 @@ function calcularSimplesNacional(dados) {
         }
         
         // Para infoprodutos e serviços digitais, usamos uma alíquota reduzida
-        if (dados.tipoNegocio === 'infoprodutos' || dados.tipoNegocio === 'servicos' || dados.tipoNegocio === 'coaching' || dados.tipoNegocio === 'adsense' || dados.tipoNegocio === 'socialmedia') {
-            aliquota = aliquota * 0.7; // Redução fictícia para demonstração
-        }
+        // if (dados.tipoNegocio === 'infoprodutos' || dados.tipoNegocio === 'servicos' || dados.tipoNegocio === 'coaching' || dados.tipoNegocio === 'adsense' || dados.tipoNegocio === 'socialmedia') {
+        //     aliquota = aliquota * 0.7; // Redução fictícia para demonstração REMOVIDA PARA CORREÇÃO
+        // }
         
         // Cálculo do valor mensal a pagar
         valorMensal = (dados.faturamentoMensal * aliquota) / 100;
