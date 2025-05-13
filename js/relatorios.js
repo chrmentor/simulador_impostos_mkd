@@ -63,6 +63,13 @@ function renderizarResultados(dados, resultados) {
             <p style="margin-bottom: 0; color: #78350f;">O cálculo para "Outros Serviços Digitais" considera o <strong>Anexo III como padrão</strong> (Ex: marketing direto, edição de materiais). No entanto, por ser uma categoria ampla, algumas atividades específicas podem se enquadrar no Anexo V (sujeito ao Fator R). Recomendamos fortemente contatar um contador especializado da Mentorial Contabilidade para uma análise precisa do seu caso concreto.</p>
         </div>` : '';
 
+    // Observação para Social Media
+    const observacaoSocialMedia = dados.tipoNegocio === 'socialmedia' ?
+        `<div class="observacao-social-media" style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin-top: 20px; margin-bottom: 20px; border-radius: 4px;">
+            <h4 style="color: #b45309; margin-top: 0; margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Atenção para Social Media:</h4>
+            <p style="margin-bottom: 0; color: #78350f;">O cálculo para "Social Media" considera o <strong>Anexo III como padrão</strong> (foco em atividades operacionais como gestão de posts e marketing direto). Atividades mais estratégicas, de agenciamento ou criação de campanhas complexas podem ter enquadramento diferente (Anexo V, sujeito ao Fator R). Recomendamos fortemente contatar um contador especializado da Mentorial Contabilidade para uma análise precisa do seu caso concreto.</p>
+        </div>` : '';
+
     // Construir HTML dos resultados
     let html = `
         <div class="report-header">
@@ -106,7 +113,8 @@ function renderizarResultados(dados, resultados) {
         </div>
         
         ${explicacaoFatorR}
-        ${observacaoOutrosServicos} // Adicionando a observação aqui
+        ${observacaoOutrosServicos}
+        ${observacaoSocialMedia} // Adicionando a observação para Social Media aqui
         
         <div class="economia">
             <i class="fas fa-piggy-bank"></i> <strong>Economia potencial:</strong> ${formatarValor(economiaAnual)} anuais em comparação com o regime menos vantajoso.
