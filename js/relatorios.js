@@ -114,7 +114,7 @@ function renderizarResultados(dados, resultados) {
         
         ${explicacaoFatorR}
         ${observacaoOutrosServicos}
-        ${observacaoSocialMedia} // Adicionando a observação para Social Media aqui
+        ${observacaoSocialMedia}
         
         <div class="economia">
             <i class="fas fa-piggy-bank"></i> <strong>Economia potencial:</strong> ${formatarValor(economiaAnual)} anuais em comparação com o regime menos vantajoso.
