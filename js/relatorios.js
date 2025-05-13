@@ -55,7 +55,14 @@ function renderizarResultados(dados, resultados) {
                 </a>
             </div>
         </div>` : '';
-    
+
+    // Observação para Outros Serviços Digitais
+    const observacaoOutrosServicos = dados.tipoNegocio === 'servicos' ?
+        `<div class="observacao-outros-servicos" style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin-top: 20px; margin-bottom: 20px; border-radius: 4px;">
+            <h4 style="color: #b45309; margin-top: 0; margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Atenção para Outros Serviços Digitais:</h4>
+            <p style="margin-bottom: 0; color: #78350f;">O cálculo para "Outros Serviços Digitais" considera o <strong>Anexo III como padrão</strong> (Ex: marketing direto, edição de materiais). No entanto, por ser uma categoria ampla, algumas atividades específicas podem se enquadrar no Anexo V (sujeito ao Fator R). Recomendamos fortemente contatar um contador especializado da Mentorial Contabilidade para uma análise precisa do seu caso concreto.</p>
+        </div>` : '';
+
     // Construir HTML dos resultados
     let html = `
         <div class="report-header">
@@ -99,6 +106,7 @@ function renderizarResultados(dados, resultados) {
         </div>
         
         ${explicacaoFatorR}
+        ${observacaoOutrosServicos} // Adicionando a observação aqui
         
         <div class="economia">
             <i class="fas fa-piggy-bank"></i> <strong>Economia potencial:</strong> ${formatarValor(economiaAnual)} anuais em comparação com o regime menos vantajoso.
