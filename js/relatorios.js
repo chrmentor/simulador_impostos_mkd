@@ -103,10 +103,10 @@ function renderizarResultados(dados, resultados) {
             <div class="regime-card simples-nacional ${regimeRecomendado === 'simplesNacional' ? 'recomendado' : ''}">
                 <div class="regime-titulo">Simples Nacional</div>
                 <div class="valor-imposto">${formatarValor(resultados.simplesNacional.valorMensal)}</div>
-                <div class="aliquota">Alíquota efetiva: ${resultados.simplesNacional.aliquota.toFixed(2)}% ${dados.tipoNegocio === 'afiliado' ? '+ Prev.FatorR' : ''}</div>
+                <div class="aliquota">${dados.tipoNegocio === 'afiliadobr' ? 'Alíquota efetiva: 6.00%+Prev.FatorR' : `Alíquota efetiva: ${resultados.simplesNacional.aliquota.toFixed(2)}%`}</div>
                 <div class="regime-descricao">
                     Regime simplificado para micro e pequenas empresas, com tributos unificados em uma única guia.
-                    ${dados.tipoNegocio === 'afiliado' ? `<br><strong>Estratégia do Fator R aplicada:</strong> Possibilidade de redução significativa da alíquota inicial.` : ''}
+                    ${dados.tipoNegocio === 'afiliadobr' ? `<br><strong>Estratégia do Fator R aplicada:</strong> O valor inclui o INSS sobre o pró-labore (28,01% do faturamento) para enquadramento no Anexo III.` : (dados.tipoNegocio === 'afiliadoext' ? `<br><strong>Estratégia do Fator R aplicada:</strong> O valor inclui o INSS sobre o pró-labore (28% do faturamento) para enquadramento no Anexo III.` : '')}
                 </div>
             </div>
             

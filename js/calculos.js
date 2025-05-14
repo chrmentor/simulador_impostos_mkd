@@ -1,8 +1,3 @@
-/**
- * Cálculos tributários para o Simulador de Impostos
- * Este arquivo contém as funções para calcular os impostos nos diferentes regimes tributários
- */
-
 // Função principal para calcular impostos nos três regimes
 function calcularImpostos(dados) {
     return {
@@ -19,109 +14,117 @@ function calcularSimplesNacional(dados) {
     let descricaoAdicional = "";
     let valorINSS = 0;
     let anexoUtilizado = "";
-    
-    // Verificar se é afiliado (intermediador de serviço, sujeito ao Anexo V)
-    if (dados.tipoNegocio === 'afiliado_brasil' || dados.tipoNegocio === 'afiliado_exterior') {
-        // Calcular o valor do pró-labore necessário para atingir o Fator R
-        const proLaboreNecessario = dados.faturamentoMensal * 0.28; // 28% do faturamento
-        valorINSS = proLaboreNecessario * 0.11; // 11% de INSS sobre o pró-labore
+
+    if (dados.tipoNegocio === 'afiliadobr') {
+        anexoUtilizado = "Anexo III (com Fator R ≥ 28,01%)";
+        const proLaborePercentual = 0.2801;
+        const proLaboreNecessario = dados.faturamentoMensal * proLaborePercentual;
+        valorINSS = proLaboreNecessario * 0.11;
+
+        if (dados.faturamentoAnual <= 180000) {
+            aliquota = 6.0;
+        } else if (dados.faturamentoAnual <= 360000) {
+            aliquota = 11.2;
+        } else if (dados.faturamentoAnual <= 720000) {
+            aliquota = 13.5;
+        } else if (dados.faturamentoAnual <= 1800000) {
+            aliquota = 16.0;
+        } else if (dados.faturamentoAnual <= 3600000) {
+            aliquota = 21.0;
+        } else {
+            aliquota = 33.0; // Acima do limite do Simples
+        }
         
-        // Com Fator R >= 28%, utiliza-se o Anexo III em vez do Anexo V
-        // Determinar a faixa de faturamento e alíquota correspondente para o Anexo III
+        const valorSimplesDAS = (dados.faturamentoMensal * aliquota) / 100;
+        valorMensal = valorSimplesDAS + valorINSS;
+        // A descricaoAdicional específica para este caso será montada no relatorios.js
+
+    } else if (dados.tipoNegocio === 'afiliadoext') {
         anexoUtilizado = "Anexo III (com Fator R ≥ 28%)";
-        
+        descricaoAdicional = `Aplicando estratégia do Fator R: Migração para Anexo III.`;
+        const proLaborePercentual = 0.28; 
+        const proLaboreNecessario = dados.faturamentoMensal * proLaborePercentual;
+        valorINSS = proLaboreNecessario * 0.11;
+
         if (dados.faturamentoAnual <= 180000) {
-            aliquota = 6.0; // 6% para faturamento até R$ 180.000,00
+            aliquota = 6.0;
         } else if (dados.faturamentoAnual <= 360000) {
-            aliquota = 11.2; // 11,2% para faturamento até R$ 360.000,00
+            aliquota = 11.2;
         } else if (dados.faturamentoAnual <= 720000) {
-            aliquota = 13.5; // 13,5% para faturamento até R$ 720.000,00
+            aliquota = 13.5;
         } else if (dados.faturamentoAnual <= 1800000) {
-            aliquota = 16.0; // 16% para faturamento até R$ 1.800.000,00
+            aliquota = 16.0;
         } else if (dados.faturamentoAnual <= 3600000) {
-            aliquota = 21.0; // 21% para faturamento até R$ 3.600.000,00
+            aliquota = 21.0;
         } else {
-            aliquota = 33.0; // Acima do limite do Simples, consideramos uma alíquota alta
+            aliquota = 33.0;
         }
-        
-        // Valor mensal a pagar (Simples Nacional + INSS do pró-labore)
-        const valorSimples = (dados.faturamentoMensal * aliquota) / 100;
-        valorMensal = valorSimples + valorINSS;
-        
-        // Descrição adicional para explicar o Fator R
-        descricaoAdicional = `Aplicando estratégia do Fator R: Migração do Anexo V (15,5%+) para o ${anexoUtilizado} (${aliquota.toFixed(1)}%) + INSS sobre pró-labore de R$ ${proLaboreNecessario.toFixed(2)} (28% do faturamento)`;
-    } else {
-        // Para outros tipos de negócio, manter o cálculo original
-        // Determinar a faixa de faturamento e alíquota correspondente
-        // Anexo III do Simples Nacional (serviços)
+        const valorSimplesDAS = (dados.faturamentoMensal * aliquota) / 100;
+        valorMensal = valorSimplesDAS + valorINSS;
+
+    } else if (dados.tipoNegocio === 'infoprodutos' || dados.tipoNegocio === 'coaching' || dados.tipoNegocio === 'servicos' || dados.tipoNegocio === 'socialmedia') {
         anexoUtilizado = "Anexo III";
-        
         if (dados.faturamentoAnual <= 180000) {
-            aliquota = 6.0; // 6% para faturamento até R$ 180.000,00
+            aliquota = 6.0;
         } else if (dados.faturamentoAnual <= 360000) {
-            aliquota = 11.2; // 11,2% para faturamento até R$ 360.000,00
+            aliquota = 11.2;
         } else if (dados.faturamentoAnual <= 720000) {
-            aliquota = 13.5; // 13,5% para faturamento até R$ 720.000,00
+            aliquota = 13.5;
         } else if (dados.faturamentoAnual <= 1800000) {
-            aliquota = 16.0; // 16% para faturamento até R$ 1.800.000,00
+            aliquota = 16.0;
         } else if (dados.faturamentoAnual <= 3600000) {
-            aliquota = 21.0; // 21% para faturamento até R$ 3.600.000,00
+            aliquota = 21.0;
         } else {
-            aliquota = 33.0; // Acima do limite do Simples, consideramos uma alíquota alta
+            aliquota = 33.0;
         }
-        
-        // Para infoprodutos e serviços digitais, usamos uma alíquota reduzida
-        // if (dados.tipoNegocio === 'infoprodutos' || dados.tipoNegocio === 'servicos' || dados.tipoNegocio === 'coaching' || dados.tipoNegocio === 'adsense' || dados.tipoNegocio === 'socialmedia') {
-        //     aliquota = aliquota * 0.7; // Redução fictícia para demonstração REMOVIDA PARA CORREÇÃO
-        // }
-        
-        // Cálculo do valor mensal a pagar
         valorMensal = (dados.faturamentoMensal * aliquota) / 100;
+
+    } else if (dados.tipoNegocio === 'adsense') {
+        anexoUtilizado = "Anexo V";
+        if (dados.faturamentoAnual <= 180000) {
+            aliquota = 15.5;
+        } else if (dados.faturamentoAnual <= 360000) {
+            aliquota = 18.0;
+        } else if (dados.faturamentoAnual <= 720000) {
+            aliquota = 19.5;
+        } else if (dados.faturamentoAnual <= 1800000) {
+            aliquota = 20.5;
+        } else if (dados.faturamentoAnual <= 3600000) {
+            aliquota = 23.0;
+        } else {
+            aliquota = 30.5;
+        }
+        valorMensal = (dados.faturamentoMensal * aliquota) / 100;
+    } else {
+        // Fallback para tipo de negócio não reconhecido ou não tratado
+        console.warn("Simples Nacional: Tipo de negócio não tratado ou desconhecido:", dados.tipoNegocio);
+        aliquota = 0;
+        valorMensal = 0;
     }
     
     return {
-        aliquota: aliquota,
-        valorMensal: valorMensal,
-        descricaoAdicional: descricaoAdicional,
-        valorINSS: valorINSS,
+        aliquota: aliquota, // Alíquota base do DAS do anexo correspondente
+        valorMensal: valorMensal, // Valor final (pode incluir INSS para Fator R)
+        descricaoAdicional: descricaoAdicional, // Descrição para Fator R (exceto afiliadobr, tratado no relatório)
+        valorINSS: valorINSS, // Valor do INSS calculado (para Fator R)
         anexoUtilizado: anexoUtilizado
     };
 }
 
 // Cálculo do Lucro Presumido
 function calcularLucroPresumido(dados) {
-    // Presunção de lucro para serviços: 32%
     const presuncaoLucro = 0.32;
-    
-    // Base de cálculo para IR e CSLL
     const baseCalculoIRCSLL = dados.faturamentoMensal * presuncaoLucro;
-    
-    // Cálculo do IRPJ - 15% sobre o lucro presumido
     let valorIR = baseCalculoIRCSLL * 0.15;
-    
-    // Adicional de IRPJ (10% sobre o que exceder R$ 20.000/mês)
     if (baseCalculoIRCSLL > 20000) {
         valorIR += (baseCalculoIRCSLL - 20000) * 0.10;
     }
-    
-    // Cálculo da CSLL - 9% sobre o lucro presumido
     const valorCSLL = baseCalculoIRCSLL * 0.09;
-    
-    // Cálculo do PIS - 0,65% sobre faturamento bruto
     const valorPIS = dados.faturamentoMensal * 0.0065;
-    
-    // Cálculo da COFINS - 3% sobre faturamento bruto
     const valorCOFINS = dados.faturamentoMensal * 0.03;
-    
-    // Cálculo do ISS - 3% sobre faturamento bruto (para serviços digitais)
-    const valorISS = dados.faturamentoMensal * 0.03;
-    
-    // Total mensal (incluindo ISS para serviços digitais)
+    const valorISS = dados.faturamentoMensal * 0.03; // Considerando ISS fixo de 3% para simplificação
     const valorMensal = valorIR + valorCSLL + valorPIS + valorCOFINS + valorISS;
-    
-    // Alíquota efetiva
     const aliquotaEfetiva = (valorMensal / dados.faturamentoMensal) * 100;
-    
     return {
         aliquota: aliquotaEfetiva,
         valorMensal: valorMensal
@@ -130,85 +133,39 @@ function calcularLucroPresumido(dados) {
 
 // Cálculo do IRPF (Pessoa Física)
 function calcularIRPF(dados) {
-    // Dedução de despesas
     let baseCalculo = dados.faturamentoMensal;
-    
-    // Se possui contabilidade/livro caixa, pode deduzir despesas
     if (dados.possuiContabilidade) {
         baseCalculo = Math.max(0, dados.faturamentoMensal - dados.despesasMensais);
     }
-    
-    // Tabela progressiva do IRPF (valores de 2023)
     let valorIR = 0;
     let aliquotaEfetiva = 0;
-    
-    if (baseCalculo <= 2112.00) {
-        // Isento
+    if (baseCalculo <= 2259.20) { // Faixa de isenção IRPF 2024/2025 (Exemplo, verificar tabela vigente)
         valorIR = 0;
-        aliquotaEfetiva = 0;
     } else if (baseCalculo <= 2826.65) {
-        // 7,5%
-        valorIR = (baseCalculo * 0.075) - 158.40;
-        aliquotaEfetiva = (valorIR / dados.faturamentoMensal) * 100;
+        valorIR = (baseCalculo * 0.075) - 169.44;
     } else if (baseCalculo <= 3751.05) {
-        // 15%
-        valorIR = (baseCalculo * 0.15) - 370.40;
-        aliquotaEfetiva = (valorIR / dados.faturamentoMensal) * 100;
+        valorIR = (baseCalculo * 0.15) - 381.44;
     } else if (baseCalculo <= 4664.68) {
-        // 22,5%
-        valorIR = (baseCalculo * 0.225) - 651.73;
+        valorIR = (baseCalculo * 0.225) - 662.77;
+    } else {
+        valorIR = (baseCalculo * 0.275) - 896.00;
+    }
+
+    if (dados.faturamentoMensal > 0 && valorIR > 0) {
         aliquotaEfetiva = (valorIR / dados.faturamentoMensal) * 100;
     } else {
-        // 27,5%
-        valorIR = (baseCalculo * 0.275) - 884.96;
-        aliquotaEfetiva = (valorIR / dados.faturamentoMensal) * 100;
+        aliquotaEfetiva = 0;
     }
     
-    // Adicionar INSS (11% até o teto)
-    const tetoINSS = 7507.49; // Teto do INSS em 2023
+    const tetoINSS = 7786.02; // Teto INSS 2024 (Exemplo, verificar valor vigente)
     const baseINSS = Math.min(dados.faturamentoMensal, tetoINSS);
-    const valorINSS = baseINSS * 0.11;
+    const valorINSS = baseINSS * 0.11; // Contribuição INSS autônomo simplificada (11% sobre rendimento até o teto)
     
-    // Total mensal
-    const valorMensal = valorIR + valorINSS;
+    const valorMensalTotal = valorIR + valorINSS;
     
     return {
-        aliquota: aliquotaEfetiva,
-        valorMensal: valorMensal
+        aliquota: Math.max(0, aliquotaEfetiva),
+        valorMensal: valorMensalTotal
     };
 }
 
-// Função para simular diferentes cenários
-function simularCenarios(dados) {
-    const cenarios = [];
-    
-    // Cenário atual
-    cenarios.push({
-        nome: "Cenário Atual",
-        faturamentoMensal: dados.faturamentoMensal,
-        resultados: calcularImpostos(dados)
-    });
-    
-    // Cenário com aumento de 20% no faturamento
-    const dadosAumento = {...dados};
-    dadosAumento.faturamentoMensal = dados.faturamentoMensal * 1.2;
-    dadosAumento.faturamentoAnual = dados.faturamentoAnual * 1.2;
-    
-    cenarios.push({
-        nome: "Aumento de 20% no Faturamento",
-        faturamentoMensal: dadosAumento.faturamentoMensal,
-        resultados: calcularImpostos(dadosAumento)
-    });
-    
-    // Cenário com redução de 20% nas despesas
-    const dadosReducao = {...dados};
-    dadosReducao.despesasMensais = dados.despesasMensais * 0.8;
-    
-    cenarios.push({
-        nome: "Redução de 20% nas Despesas",
-        faturamentoMensal: dados.faturamentoMensal,
-        resultados: calcularImpostos(dadosReducao)
-    });
-    
-    return cenarios;
-}

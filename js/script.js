@@ -314,9 +314,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Calcular e mostrar resultados
     calcularBtn.addEventListener('click', function() {
         // Validar campos obrigatórios na etapa 5 antes de prosseguir
-        if (validarEtapa(5)) {
-            // Criar e mostrar o box "Calculando impostos..."
-            const loadingBox = document.createElement('div');
+          if (validarEtapa(5)) {
+        const tipoNegocioValor = document.getElementById('tipoNegocio').value;
+        if (tipoNegocioValor === "" || tipoNegocioValor === null) {
+            alert("Erro: O tipo de negócio não foi selecionado ou é inválido. Por favor, volte à Etapa 2 e selecione uma opção válida.");
+            // mostrarEtapa(2); // Descomente se quiser redirecionar
+            return;
+        }
+
+        // Criar e mostrar o box "Calculando impostos..."
+        const loadingBox = document.createElement('div');
             loadingBox.className = 'loading-box';
             loadingBox.style.position = 'fixed';
             loadingBox.style.top = '50%';
