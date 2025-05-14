@@ -106,7 +106,7 @@ function renderizarResultados(dados, resultados) {
                 <div class="aliquota">${dados.tipoNegocio === 'afiliadobr' ? 'Alíquota efetiva: 6.00%+Prev.FatorR' : `Alíquota efetiva: ${resultados.simplesNacional.aliquota.toFixed(2)}%`}</div>
                 <div class="regime-descricao">
                     Regime simplificado para micro e pequenas empresas, com tributos unificados em uma única guia.
-                    ${dados.tipoNegocio === 'afiliadobr' ? `<br><strong>Estratégia do Fator R aplicada:</strong> O valor inclui o INSS sobre o pró-labore (28,01% do faturamento) para enquadramento no Anexo III.` : (dados.tipoNegocio === 'afiliadoext' ? `<br><strong>Estratégia do Fator R aplicada:</strong> O valor inclui o INSS sobre o pró-labore (28% do faturamento) para enquadramento no Anexo III.` : '')}
+                    ${dados.tipoNegocio === 'afiliadobr' ? `<br><strong>Estratégia do Fator R aplicada:</strong> Esta estratégia possibilita o enquadramento no Anexo III (ao invés do Anexo V), resultando em uma tributação mais vantajosa para o seu negócio.` : (dados.tipoNegocio === 'afiliadoext' ? `<br><strong>Estratégia do Fator R aplicada:</strong> O valor inclui o INSS sobre o pró-labore (28% do faturamento) para enquadramento no Anexo III.` : '')}
                 </div>
             </div>
             
