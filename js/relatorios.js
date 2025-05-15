@@ -97,6 +97,8 @@ function renderizarResultados(dados, resultados) {
                 <p>Gerado em: ${dataAtual}</p>
                 <p>Preparado para: ${dados.nome}</p>
                 <p>Tipo de negócio: ${nomeTipoNegocioSelecionado}</p>
+                <p>Faturamento Mensal Aprox.: ${formatarValor(dados.faturamentoMensal)}</p>
+                <p>RBT12 (Faturamento Anual Aprox.): ${formatarValor(dados.faturamentoAnual)}</p>
             </div>
             <img src="logo_mentorial.png" alt="Mentorial Contabilidade">
         </div>
