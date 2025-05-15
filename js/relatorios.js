@@ -103,7 +103,7 @@ function renderizarResultados(dados, resultados) {
         
         <div class="resumo-executivo">
             <h3>Resumo Executivo</h3>
-            <p>Com base nos dados fornecidos, realizamos uma análise comparativa dos três principais regimes tributários brasileiros aplicáveis ao seu perfil de infoprodutor/afiliado.</p>
+            <p>Com base nos dados fornecidos, realizamos uma análise comparativa dos três principais regimes tributários brasileiros aplicáveis ao seu perfil.</p>
         </div>
         
         <div class="regimes-container">
