@@ -135,7 +135,7 @@ function renderizarResultados(dados, resultados) {
         ${explicacaoFatorR}
         ${observacaoOutrosServicos}
         ${observacaoSocialMedia}
-        ${observacaoAdsense} // Adicionada a observação para Adsense aqui
+        ${observacaoAdsense}
         
         <div class="economia">
             <i class="fas fa-piggy-bank"></i> <strong>Economia potencial:</strong> ${formatarValor(economiaAnual)} anuais em comparação com o regime menos vantajoso.
