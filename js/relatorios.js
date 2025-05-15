@@ -70,6 +70,13 @@ function renderizarResultados(dados, resultados) {
             <p style="margin-bottom: 0; color: #78350f;">O cálculo para "Social Media" considera o <strong>Anexo III como padrão</strong> (foco em atividades operacionais como gestão de posts e marketing direto). Atividades mais estratégicas, de agenciamento ou criação de campanhas complexas podem ter enquadramento diferente (Anexo V, sujeito ao Fator R). Recomendamos fortemente contatar um contador especializado da Mentorial Contabilidade para uma análise precisa do seu caso concreto.</p>
         </div>` : '';
 
+    // Observação para Adsense
+    const observacaoAdsense = dados.tipoNegocio === 'adsense' ?
+        `<div class="observacao-adsense" style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin-top: 20px; margin-bottom: 20px; border-radius: 4px;">
+            <h4 style="color: #b45309; margin-top: 0; margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Atenção para Adsense (Publisher e Youtuber):</h4>
+            <p style="margin-bottom: 0; color: #78350f;">O cálculo para "Adsense" considera o <strong>Anexo III como padrão</strong> (Ex: CNAE 5911-1/99 para Youtubers). No entanto, dependendo da atividade principal e do CNAE específico (Ex: 7319-0/03 para publicidade), algumas atividades podem se enquadrar no Anexo V (sujeito ao Fator R). Recomendamos fortemente contatar um contador especializado da Mentorial Contabilidade para uma análise precisa do seu caso concreto.</p>
+        </div>` : '';
+
     // Mapeamento dos tipos de negócio para nomes amigáveis
     const nomesTiposNegocio = {
         'infoprodutos': 'Infoprodutos (Cursos)',
@@ -128,6 +135,7 @@ function renderizarResultados(dados, resultados) {
         ${explicacaoFatorR}
         ${observacaoOutrosServicos}
         ${observacaoSocialMedia}
+        ${observacaoAdsense} // Adicionada a observação para Adsense aqui
         
         <div class="economia">
             <i class="fas fa-piggy-bank"></i> <strong>Economia potencial:</strong> ${formatarValor(economiaAnual)} anuais em comparação com o regime menos vantajoso.

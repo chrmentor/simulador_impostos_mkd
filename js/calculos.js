@@ -62,8 +62,12 @@ function calcularSimplesNacional(dados) {
         const valorSimplesDAS = (dados.faturamentoMensal * aliquota) / 100;
         valorMensal = valorSimplesDAS + valorINSS;
 
-    } else if (dados.tipoNegocio === 'infoprodutos' || dados.tipoNegocio === 'coaching' || dados.tipoNegocio === 'servicos' || dados.tipoNegocio === 'socialmedia') {
+    } else if (dados.tipoNegocio === 'infoprodutos' || dados.tipoNegocio === 'coaching' || dados.tipoNegocio === 'servicos' || dados.tipoNegocio === 'socialmedia' || dados.tipoNegocio === 'adsense') { // Adsense adicionado aqui para Anexo III
         anexoUtilizado = "Anexo III";
+        if (dados.tipoNegocio === 'adsense') {
+            // Para Adsense, mesmo no Anexo III, podemos querer uma descrição específica ou manter a geral.
+            // Por enquanto, usará a mesma lógica de alíquota do Anexo III dos outros.
+        }
         if (dados.faturamentoAnual <= 180000) {
             aliquota = 6.0;
         } else if (dados.faturamentoAnual <= 360000) {
@@ -79,23 +83,7 @@ function calcularSimplesNacional(dados) {
         }
         valorMensal = (dados.faturamentoMensal * aliquota) / 100;
 
-    } else if (dados.tipoNegocio === 'adsense') {
-        anexoUtilizado = "Anexo V";
-        if (dados.faturamentoAnual <= 180000) {
-            aliquota = 15.5;
-        } else if (dados.faturamentoAnual <= 360000) {
-            aliquota = 18.0;
-        } else if (dados.faturamentoAnual <= 720000) {
-            aliquota = 19.5;
-        } else if (dados.faturamentoAnual <= 1800000) {
-            aliquota = 20.5;
-        } else if (dados.faturamentoAnual <= 3600000) {
-            aliquota = 23.0;
-        } else {
-            aliquota = 30.5;
-        }
-        valorMensal = (dados.faturamentoMensal * aliquota) / 100;
-    } else {
+    } else { // Removido o bloco específico do Adsense que o colocava no Anexo V
         // Fallback para tipo de negócio não reconhecido ou não tratado
         console.warn("Simples Nacional: Tipo de negócio não tratado ou desconhecido:", dados.tipoNegocio);
         aliquota = 0;
