@@ -13,6 +13,9 @@
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --border-radius: 10px;
     --transition: all 0.3s ease;
+    --lucro-real-title-color: #c7344A; /* Cor para o título do box Lucro Real, similar ao da imagem */
+    --lucro-real-box-bg: #f9f9f9; /* Fundo claro para o box */
+    --lucro-real-border-color: #e0e0e0; /* Cor da borda para a tabela e o box */
 }
 
 * {
@@ -525,6 +528,122 @@ select:focus {
     color: var(--gray-color);
 }
 
+/* Estilos para o Box de Lucro Real */
+.lucro-real-info-box {
+    background-color: var(--lucro-real-box-bg);
+    border: 1px solid var(--lucro-real-border-color);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+
+.lucro-real-info-box h3 {
+    color: var(--lucro-real-title-color);
+    font-size: 1.5rem; /* Ajustado para ser um pouco menor que h2 */
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.lucro-real-info-box h3 i {
+    margin-right: 10px;
+}
+
+.lucro-real-resumo {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: var(--dark-color);
+    font-style: italic;
+}
+
+.lucro-real-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.lucro-real-table th, .lucro-real-table td {
+    border: 1px solid var(--lucro-real-border-color);
+    padding: 12px;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.lucro-real-table th {
+    background-color: var(--gray-light);
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.lucro-real-table td ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    padding-left: 0;
+}
+
+.lucro-real-info-box h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.lucro-real-info-box ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    padding-left: 5px;
+}
+
+.lucro-real-info-box ul li {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.lucro-real-considerar-lista li {
+    list-style-type: none; /* Remover marcador padrão */
+    padding-left: 0;
+}
+
+.lucro-real-considerar-lista i {
+    color: var(--success-color);
+    margin-right: 10px;
+}
+
+.lucro-real-analise {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: var(--dark-color);
+}
+
+.lucro-real-info-box > p:not(.lucro-real-resumo):not(.lucro-real-analise) {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+.lucro-real-contato {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--gray-light);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.lucro-real-contato p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--dark-color);
+}
+
+.lucro-real-contato i {
+    margin-right: 5px;
+    color: var(--primary-color);
+}
+
 /* Footer */
 footer {
     text-align: center;
@@ -601,6 +720,15 @@ footer {
     .regimes-container {
         grid-template-columns: 1fr;
     }
+
+    .lucro-real-info-box h3 {
+        font-size: 1.3rem;
+    }
+
+    .lucro-real-table th, .lucro-real-table td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -625,4 +753,21 @@ footer {
         height: 35px;
         font-size: 0.9rem;
     }
+
+    .lucro-real-info-box {
+        padding: 15px;
+    }
+
+    .lucro-real-info-box h3 {
+        font-size: 1.2rem;
+    }
+
+    .lucro-real-table th, .lucro-real-table td {
+        font-size: 0.85rem;
+    }
+
+    .lucro-real-contato p {
+        font-size: 0.85rem;
+    }
 }
+

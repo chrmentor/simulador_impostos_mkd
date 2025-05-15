@@ -245,6 +245,65 @@ function renderizarResultados(dados, resultados) {
             </ul>
         </div>
         
+        <div class="lucro-real-info-box">
+            <h3><i class="fas fa-ban"></i> LUCRO REAL: POR QUE NÃO INCLUÍMOS EM SUA SIMULAÇÃO</h3>
+            <p class="lucro-real-resumo">O Regime do Lucro Real em resumo: Tributação baseada no lucro líquido contábil real, ajustado pelas adições, exclusões e compensações permitidas pela legislação fiscal.</p>
+            
+            <table class="lucro-real-table">
+                <thead>
+                    <tr>
+                        <th>Aspecto</th>
+                        <th>Impacto para Infoprodutores e Negócios Digitais</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Complexidade e Custos Adicionais</strong></td>
+                        <td>
+                            <ul>
+                                <li>Necessidade de controles fiscais rigorosos</li>
+                                <li>Obrigações acessórias complexas (ECD, ECF, EFD-Contribuições)</li>
+                                <li>Honorários de prestadores de serviço 2-3x maiores pela complexidade</li>
+                                <li>Sistemas de gestão mais robustos</li>
+                                <li>Possível necessidade de consultoria tributária especializada</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Incompatibilidade com as margens altas do setor</strong></td>
+                        <td>
+                            <ul>
+                                <li>Geralmente é vantajoso para margens mais reduzidas</li>
+                                <li>Infoprodutos e serviços digitais, em geral, operam com margens elevadas</li>
+                                <li>Os possíveis benefícios dificilmente superam os custos adicionais</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h4>Desvantagens específicas para empresas em início de operação:</h4>
+            <ul>
+                <li>Fluxo de caixa comprometido por exigências fiscais mais rígidas</li>
+                <li>Complexidade que desvia o foco do crescimento do negócio</li>
+                <li>Dificuldade em aproveitar benefícios fiscais nos primeiros anos</li>
+            </ul>
+            
+            <h4>Quando o Lucro Real poderia ser considerado:</h4>
+            <ul class="lucro-real-considerar-lista">
+                <li><i class="fas fa-check-circle"></i> Faturamento acima de R$ 78 milhões (obrigatório por lei)</li>
+                <li><i class="fas fa-check-circle"></i> Operações empresariais complexas com múltiplas atividades</li>
+                <li><i class="fas fa-check-circle"></i> Margens de lucro extremamente reduzidas</li>
+                <li><i class="fas fa-check-circle"></i> Empresas com prejuízos fiscais a compensar</li>
+            </ul>
+            
+            <p class="lucro-real-analise"><strong>Seu negócio tem características únicas que poderiam tornar o Lucro Real vantajoso?</strong></p>
+            <p>A Mentorial Contabilidade oferece análise personalizada para determinar a melhor estratégia tributária para seu caso específico.</p>
+            <div class="lucro-real-contato">
+                 <p><i class="fab fa-whatsapp"></i> WhatsApp: (44) 99773-2929 | <i class="fas fa-phone"></i> Telefone: (44) 3020-2929 | <i class="fas fa-envelope"></i> Email: contato@mentorial.com.br</p>
+            </div>
+        </div>
+
         <div class="call-to-action">
             <h3>Economize tempo e dinheiro com a Mentorial Contabilidade</h3>
             <p>Nossos especialistas podem ajudar você a implementar a melhor estratégia tributária para o seu negócio.</p>
